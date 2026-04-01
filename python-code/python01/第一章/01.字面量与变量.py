@@ -39,3 +39,4 @@ age = 18
 print("My name is " + name + ", I'm " + str(age) + " years old.")
 print("My name is %s, I'm %s years old." % (name, age))
 print(f"My name is {name}, I'm {age} years old.")   # 常用
+
