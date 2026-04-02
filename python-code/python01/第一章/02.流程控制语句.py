@@ -35,3 +35,16 @@ while i <= 100:
     i += 1
 
 print(sum)
+
+# for
+msg = "Hello"
+for ch in msg:
+    print(ch)
+else:           # else为循环结束语句，可写可不写
+    print("遍历结束")
+
+sum = 0
+for n in range(1, 101, 2): # 1 ~ 100 的奇数数组
+    sum += n
+else:
+    print(sum)
