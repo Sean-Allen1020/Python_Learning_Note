@@ -10,7 +10,8 @@ while True:
 
     message.append(user)
 
-    response = chat(model='gemma4', messages=message)
+    # response = chat(model='gemma4', messages=message)
+    response = chat(model='deepseek-r1:1.5b', messages=message)
 
     memory['content'] = response.message.content
 
