@@ -1,8 +1,8 @@
 import os
 import streamlit as st
-from InitPrompt import InitPrompt
-from ChatLogic import ChatLogic
-import system_prompt_settings
+from init_chat import init_chat
+from chat_service import build_memory, build_user_message, parse_llm_reply
+from system_prompt_settings import build_partner_prompt
 
 # Latyout
 # ページコンフィグ
@@ -25,22 +25,20 @@ with st.sidebar:
     personality = st.text_area("パートナー性格", placeholder="パートナーの性格を設定してください")
 
 # 初期化chat + チャット表示
-system_prompt = SYSTEM_PROMPT
-ip = InitPrompt(system_prompt)
-ip.init_chat()
+final_name = name or "智能AI聊天伴侣"     # name 为假时，触发默认名
+final_personality = personality or "阳光开朗，语句简练"  # personality 为假时，触发默认性格
+init_chat(build_partner_prompt(final_name, final_personality))
 
 # チャット処理
 prompt = st.chat_input("メッセージを入力してください")
 if prompt:
-    cl = ChatLogic(prompt)
     # ユーザー入力 + ユーザーメッセージ保存
-    user = cl.user_input()
+    user = build_user_message(prompt)
     st.session_state.messages.append(user)
 
-    # LLM呼び出し
-    response = cl.call_llm()
+    # LLM返事取得
+    response = build_memory()
 
-    # LLM返事 + LLM返事保存
-    reply = cl.llm_reply(response)
+    # LLM返事解析 + LLM返事保存
+    reply = parse_llm_reply(response)
     st.session_state.messages.append(reply)
-
