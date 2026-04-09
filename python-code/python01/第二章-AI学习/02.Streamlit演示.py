@@ -1,5 +1,18 @@
 import streamlit as st
 
+# 页面配置
+st.set_page_config(
+    page_title="Streamlit演示",
+    page_icon="🧊",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': 'https://docs.streamlit.io/develop/api-reference/configuration/st.set_page_config',
+        'Report a bug': "https://docs.streamlit.io/develop/api-reference/configuration/st.set_page_config",
+        'About': "# 这是一个Streamlit演示"
+    }
+)
+
 # 标题
 st.title('Streamlit 入门演示')
 st.header('一级标题')
