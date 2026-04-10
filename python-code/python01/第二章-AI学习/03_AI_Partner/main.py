@@ -1,8 +1,8 @@
 import os
+from datetime import datetime
 import streamlit as st
-from init_chat import init_chat
+from chat_operation import init_chat, start_new_session, save_session, get_session_list, load_session, delete_session
 from chat_service import build_memory, build_user_message, parse_llm_reply
-from system_prompt_settings import build_partner_prompt
 
 # Latyout
 # ページコンフィグ
@@ -20,14 +20,42 @@ logo_path = os.path.join(current_dir, "../resources", "logo.png")
 st.logo(logo_path)
 # サイドバー
 with st.sidebar:
-    st.subheader("設定")
-    name = st.text_input("パートナーニックネーム", placeholder="パートナーのニックネームを設定してください")
-    personality = st.text_area("パートナー性格", placeholder="パートナーの性格を設定してください")
+    # 新しい会話
+    st.subheader("会話操作")
+    if st.button("新しい会話", icon="✏️", width="stretch"):
+        if st.session_state.current_session:
+            # 1. 現在の会話を保存
+            if len(st.session_state.messages) > 2:
+                save_session(st.session_state.current_session)
+            else:
+                pass
+            # 2. 新しい会話を開始
+            name, personality = "", ""
+            new_session_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            start_new_session(new_session_name, name or "智能AI聊天伙伴Jack", personality or "阳光开朗，说话风格简练")
+
+    # 会話履歴
+    st.text("会話履歴")
+    session_list = get_session_list()
+    for session in session_list:
+        session_bu, delete_bu = st.columns([4, 1])
+        with session_bu:
+            # 過去会話をロード
+            if st.button(session, icon="📝", width="stretch"):
+                save_session(session)
+                load_session(session)
+        with delete_bu:
+            if st.button("", icon="❌", key=f"delete_{session}", width="stretch"):
+                delete_session( session)
+                st.rerun()
+
+    # パートナー設定
+    st.subheader("パートナー設定")
+    name = st.text_input("パートナーニックネーム", placeholder="パートナーのニックネームを設定してください", key="name")
+    personality = st.text_area("パートナー性格", placeholder="パートナーの性格を設定してください", key="personality")
 
 # 初期化chat + チャット表示
-final_name = name or "智能AI聊天伴侣"     # name 为假时，触发默认名
-final_personality = personality or "阳光开朗，语句简练"  # personality 为假时，触发默认性格
-init_chat(build_partner_prompt(final_name, final_personality))
+init_chat(name or "智能AI聊天伴侣Jack", personality or "阳光开朗，说话风格简练")
 
 # チャット処理
 prompt = st.chat_input("メッセージを入力してください")
