@@ -4,7 +4,7 @@ from openai import OpenAI
 
 # api-key
 client = OpenAI(
-    api_key='sk-api-1BwkK9M4g4qTozbBdmaRMmapJfSdTSqkJmuUkids86_wdVpMvWH5mnowgbdBtztlKV67pecqNPQaLpDv7enJoAhkjQe6m2Y4SSPu0_Cub0-rrpDt6TQjAQ4',
+    api_key='没有密钥',
     base_url="https://api.minimaxi.com/v1"
 )
 
