@@ -1,5 +1,6 @@
 import os
 import streamlit as st
+import program_path
 from session_manager import init_chat, render_chat, create_session, save_session, get_session_list, load_session, delete_session
 from chat_service import build_memory, build_user_message, parse_llm_reply
 from partner_settings import partner_setting, sync_partner_setting_from_current_session
@@ -20,7 +21,7 @@ st.title("AIパートナー")
 st.text(st.session_state.current_session)
 # logo
 current_dir = os.path.dirname(os.path.abspath(__file__))
-logo_path = os.path.join(current_dir, "../resources", "logo.png")
+logo_path = os.path.join(current_dir, program_path.RESOURCE_DIR, "logo.png")
 st.logo(logo_path)
 # サイドバー
 with st.sidebar:

@@ -1,11 +1,19 @@
+import os
 import streamlit as st
-import json
+import program_path
+from dotenv import load_dotenv
 from openai import OpenAI
+
+# 環境変数を取得
+load_dotenv(program_path.PROJECT_DIR / ".env")
+API_KEY = os.getenv("API_KEY")
+BASE_URL = os.getenv("BASE_URL")
+MODEL_NAME = os.getenv("MODEL_NAME", "MiniMax-M2.7")
 
 # api-key
 client = OpenAI(
-    api_key='没有密钥',
-    base_url="https://api.minimaxi.com/v1"
+    api_key=API_KEY,
+    base_url=BASE_URL
 )
 
 # ユーザー入力
@@ -19,7 +27,7 @@ def build_user_message(prompt):
 # LLM返事取得
 def build_memory():
     response = client.chat.completions.create(
-        model="MiniMax-M2.7",
+        model=MODEL_NAME,
         messages=st.session_state.messages,
         stream=True,
         extra_body={"reasoning_split": True}
