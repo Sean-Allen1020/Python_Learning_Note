@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>XPath练习页面</title>
+</head>
+<body>
+    <div id="container">
+        <h1>XPath 入门练习</h1>
+
+        <div class="section" name="intro">
+            <h2>课程简介</h2>
+            <p>XPath 是一种用于定位 XML 和 HTML 节点的语言。</p>
+            <p style="color: #FF0000;">它常用于网页解析。</p>
+            <p style="color: #0000FF;">也常用于自动化测试。</p>
+            <a href="https://example.com" target="_blank">官方文档</a>
+        </div>
+
+        <div class="section" name="students">
+            <h2>学生信息</h2>
+            <ul>
+                <li class="student" data-id="001">Tom</li>
+                <li class="student" data-id="002">Alice</li>
+                <li class="student" data-id="003">Jack</li>
+            </ul>
+        </div>
+
+        <div class="section" name="books">
+            <h2>推荐书籍</h2>
+            <div class="book" category="python">
+                <p>Python基础教程</p>
+                <a href="/book/python" title="Python书籍">查看详情</a>
+            </div>
+            <div class="book" category="java">
+                <p>Java核心技术</p>
+                <a href="/book/java" title="Java书籍">查看详情</a>
+            </div>
+        </div>
+
+        <div class="section" name="nested">
+            <h2>嵌套结构</h2>
+            <div class="outer">
+                <p>外层段落</p>
+                <div class="inner">
+                    <p>内层段落1</p>
+                    <p>内层段落2</p>
+                    <a href="/inner/link">内部链接</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer" status="active">
+            <p>页面底部信息</p>
+        </div>
+    </div>
+</body>
+</html>
