@@ -12,7 +12,7 @@ import requests
 # 定义url
 target_url = "https://www.tiobe.com/tiobe-index/"
 
-# 发送请求，获取响应数据对象
+# 通过requests库，发送请求，获取响应数据对象
 response = requests.get(target_url)
 
 # 输出数据的文本到控制台

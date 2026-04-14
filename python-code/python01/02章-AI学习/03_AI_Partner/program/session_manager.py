@@ -1,6 +1,7 @@
 import os
 import json
 import streamlit as st
+from pathlib import Path
 import program_path
 from datetime import datetime
 from prompt_builder import build_partner_prompt
@@ -30,8 +31,9 @@ def render_chat():
 def save_session(current_session: str):
     # やり取り一回以上の場合は保存する
     if len(st.session_state.messages) > 1:
-        if not os.path.exists(program_path.SESSION_DIR):
-            os.mkdir(program_path.SESSION_DIR)
+        # 保存ディレクトリを作成、あった場合はスルー
+        Path(program_path.SESSION_DIR).mkdir(parents=True, exist_ok=True)
+
         with open(f"{program_path.SESSION_DIR}/{current_session}.json", "w", encoding="utf-8") as f:
             session_data = {
                 "current_session": st.session_state.current_session,

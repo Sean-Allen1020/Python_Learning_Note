@@ -33,15 +33,22 @@ with open("resource/Xpath演示.html", "r", encoding="utf-8") as f:
     p_red = doc.xpath("//p[@style='color: #FF0000;']/text()")
     print(p_red)
 
+    # [text()='文本'] 获取指定文本的元素
+    li_jack =doc.xpath("//li[text()='Jack']/text()")
+    print(li_jack)
+    # [.='文本'] 同上
+    li_alice =doc.xpath("//li[.='Alice']/text()")
+    print(li_alice)
+
     # 通配符
     # * 获取所有元素
     div1 = doc.xpath("//div[@class='section'][1]/*/text()")
     print(div1)
 
     # @* 获取指定元素内所有属性的值
-    li1_attrs = doc.xpath("//li[1]/@*")
-    print(li1_attrs)
+    img = doc.xpath("//img/@*")
+    print(img)
 
     # @attr 获取指定元素内指定属性的值
-    li1_style = doc.xpath("//li[1]/@class")
-    print(li1_style)
+    img = doc.xpath("//img/@src")
+    print(img)
