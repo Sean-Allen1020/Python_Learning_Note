@@ -11,31 +11,39 @@ from pathlib import Path    # 文件io路径操作
 
 机器人协议：只有黑名单，没有全局禁止
 """
+# 中文请求头
+HEADERS = {
+    "User-Agent": "Mozilla/5.0",
+    "Accept-Language": "zh-CN,zh;q=0.9"
+}
+
+# 对未知数据进行统一处理
+def get_text(doc, xpath_expr: str, default_value: str = "未知"):
+    result = doc.xpath(xpath_expr)
+    if result:
+        return result[0].strip()
+    return default_value
+
 # 获取电影详细信息
 def get_movie_info(movie_url: str)-> dict:
     # 1. 获取电影详情原始网页
-    response = requests.get(movie_url)
+    response = requests.get(movie_url, headers=HEADERS)
     # 2. 解析，获取详情数据
     doc = html.fromstring(response.text)
     movie_info = {
-        "电影名": doc.xpath("//*[@id='original_header']/div[2]/section/div[1]/h2/a/text()")[0].strip(),
-        "年份": doc.xpath("//*[@id='original_header']/div[2]/section/div[1]/h2/span/text()")[0].strip(),
-        "上映时间": doc.xpath("//*[@id='original_header']/div[2]/section/div[1]/div/span[2]/text()")[0].strip(),
-        "类型": doc.xpath("//*[@id='original_header']/div[2]/section/div[1]/div/span[3]/a/text()"),
-        "时长": doc.xpath("//*[@id='original_header']/div[2]/section/div[1]/div/span[4]/text()")[0].strip(),
+        "电影名": get_text(doc, "//*[@id='original_header']/div[2]/section/div[1]/h2/a/text()"),
+        "年份": get_text(doc, "//*[@id='original_header']/div[2]/section/div[1]/h2/span/text()"),
+        "上映时间": get_text(doc, "//*[@id='original_header']/div[2]/section/div[1]/div/span[2]/text()"),
+        "类型": ",".join(doc.xpath("//*[@id='original_header']/div[2]/section/div[1]/div/span[3]/a/text()")),
+        "时长": get_text(doc, "//*[@id='original_header']/div[2]/section/div[1]/div/span[4]/text()"),
         "评分": doc.xpath("//*[@id='consensus_pill']/div/div[1]/div/div/div/span/@class")[0].strip()[-2:],
+        "语言": get_text(doc, "//*[@id='media_v4']/div/div/div[2]/div/section/div[1]/div/section[1]/p[3]/text()"),
+        "导演": get_text(doc, "//*[@id='original_header']/div[2]/section/div[3]/ol/li[1]/p[1]/a/text()"),
+        "作者": get_text(doc, "//*[@id='original_header']/div[2]/section/div[3]/ol/li[2]/p[1]/a/text()"),
+        # "主演": doc.xpath("")[0].strip(),
+        "Slogan": get_text(doc, "//*[@id='original_header']/div[2]/section/div[3]/h3[1]/text()"),
+        "简介": get_text(doc, "//*[@id='original_header']/div[2]/section/div[3]/div/p/text()")
     }
-    #
-    #
-    #
-    #
-    #
-    # "语言": doc.xpath("")[0].strip(),
-    # "导演": doc.xpath("")[0].strip(),
-    # "作者": doc.xpath("")[0].strip(),
-    # "主演": doc.xpath("")[0].strip(),
-    # "Slogan": doc.xpath("")[0].strip(),
-    # "简介": doc.xpath("")[0].strip(),
     print(movie_info)
     # 3. 返回数据
     return movie_info
@@ -59,7 +67,7 @@ def main():
     TMDB_TOP_URL = TMDB_BASE_URL + "/movie/top-rated"  # 高分电影榜单
 
     # 1. 获取原始网页对象
-    response = requests.get(TMDB_TOP_URL)
+    response = requests.get(TMDB_TOP_URL, headers=HEADERS)
 
     # 2. 解析原始网页，获取电影链接列表
     doc = html.fromstring(response.text)
