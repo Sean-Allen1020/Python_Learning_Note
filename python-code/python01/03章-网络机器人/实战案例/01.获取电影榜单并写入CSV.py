@@ -23,7 +23,7 @@ def get_movie_info(movie_url: str)-> dict:
         "上映时间": doc.xpath("//*[@id='original_header']/div[2]/section/div[1]/div/span[2]/text()")[0].strip(),
         "类型": doc.xpath("//*[@id='original_header']/div[2]/section/div[1]/div/span[3]/a/text()"),
         "时长": doc.xpath("//*[@id='original_header']/div[2]/section/div[1]/div/span[4]/text()")[0].strip(),
-        "评分": doc.xpath("//*[@id='consensus_pill']/div/div[1]/div/div/div/span/@class")[0].strip(),
+        "评分": doc.xpath("//*[@id='consensus_pill']/div/div[1]/div/div/div/span/@class")[0].strip()[-2:],
     }
     #
     #
@@ -41,16 +41,16 @@ def get_movie_info(movie_url: str)-> dict:
     return movie_info
 
 # 保存数据为csv文件
-def save_movies(all_movies: list):
-    pass
-    # # 创建CSV目录
-    # csv_path = Path(__file__).resolve().parent / "csv_data"
-    # csv_path.mkdir(parents=True, exist_ok=True)
-    # # 打开CSV文件
-    # with open(csv_path / "top_rated_movies.csv", "w", encoding="utf-8", newline="") as f:
-    #     writer = csv.DictWriter(f, fieldnames=["电影名", "年份", "上映时间", "类型", "时长", "评分", "语言", "导演", "作者", "主演", "Slogan", "简介"])
-    #     # 写入表头
-    #     writer.writeheader()
+# def save_movies(all_movies: list):
+#     pass
+#     # 创建CSV目录
+#     csv_path = Path(__file__).resolve().parent / "movies_data"
+#     csv_path.mkdir(parents=True, exist_ok=True)
+#     # 打开CSV文件
+#     with open(csv_path / "top_rated_movies.csv", "w", encoding="utf-8", newline="") as f:
+#         writer = csv.DictWriter(f, fieldnames=["电影名", "年份", "上映时间", "类型", "时长", "评分", "语言", "导演", "作者", "主演", "Slogan", "简介"])
+#         # 写入表头
+#         writer.writeheader()
 
 
 def main():
