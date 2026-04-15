@@ -4,8 +4,6 @@ from lxml import html  # 原始网页解析
 from pathlib import Path  # 文件io路径操作
 import re
 
-from pyarrow.lib import timeunit_to_string
-
 """
 案例：获取高分电影榜单（Top100）数据，并保存在CSV文件中
      数据包括： 电影名、年份、上映时间、类型、时长、评分、语言、导演、作者、主演、Slogan、简介。
@@ -14,6 +12,7 @@ from pyarrow.lib import timeunit_to_string
 
 机器人协议：只有黑名单，没有全局禁止
 """
+
 # 中文请求头
 HEADERS = {
     "User-Agent": "Mozilla/5.0",
