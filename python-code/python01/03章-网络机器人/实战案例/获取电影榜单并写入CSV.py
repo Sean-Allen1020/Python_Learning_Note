@@ -107,7 +107,7 @@ def save_movies(all_movies: list):
 
 def main():
     all_movies = []
-    for page_num in range(1, 6):
+    for page_num in range(1, 16):
         # 1. 获取原始网页对象
         print(f"发送请求，获取高分电影榜单原始网页, 第{page_num}页 ...")
         if page_num == 1:
