@@ -61,6 +61,3 @@
 - 通过Markdown文档的形式，描述Agent的工作规则
 - 分为：**原数据层**，包括 name 和 description
         **指令层**，将任务执行规则描述给Agent
-
-
-
