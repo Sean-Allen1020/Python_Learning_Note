@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Path
+from fastapi import FastAPI, Path, Query
 
 # 创建FastAPI实例
 app = FastAPI()
@@ -26,8 +26,16 @@ async def hello():
 async def get_book(id: int = Path(...,
                                   gt=0,
                                   lt=101,
-                                  description="图书编号在1-100之间")): # Path(): 为类型注解, ...代表必填
+                                  description="图书编号在1-100之间")):  # Path(): 为类型注解, ...代表必填
     return {"id": id,
             "title_num": f"当前书编号为{id}"}
 
-# 
+
+# 查询参数
+@app.get("/student")                         # 默认值
+async def get_student(name: str = Query("张三", description="学生姓名", min_length=2, max_length=10),
+                      age: int = 18):
+    return {"name": name, "age": age}
+
+
+# 请求体参数
