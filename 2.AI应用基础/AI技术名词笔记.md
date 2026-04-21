@@ -43,12 +43,28 @@
 
 - 平台为用户和LLM交互的平台，例如`ChatGpt`。而它背后的模型是OpenAI LLM
 
+
+### Function Calling
+
+- 曾经，LLM只会说话，没有调用工具的能力这使得大模型：
+  1. 无法感知环境，与外部数据源交流
+  2. 无法改变环境，帮用户执行任务，发邮件等
+  3. 传统的平台调用API，将结果发给LLM的形式，过于hard code，并且忽视了LLM的智能特性
+
+- 解决方案：让LLM告诉平台需要做的事，再由平台调用Tool，然后返回结果，再通过LLM输出结果
+
 - **流程**：用户询问天气 --> 平台发送询问prompt --> LLM生成调用查询工具的代码返回给平台 --> 平台执行代码调用工具，返还结果给LLM --> LLM将结果转换为人话，再通过平台返回给用户
 
 ### MCP - Model Context Protocol 模型上下文协议
 
-- 曾经，工具的接口，接入方式每一个LLM都不一样，同样的工具需要写重复修改，以兼容
+- **问题点**：`Function Calling`作为一个工具调用能力被运用，但由于不同LLM的标准不一，同样的工具需要写重复修改，以兼容API
 - MCP给工具接口，接入方式定义了一个规范，只要按这个规范写，所有LLM都可以接入(类似Type-C)
+- 也就是说，LLM解析prompt发送API调用指令，在曾经是不统一。如今靠统一的协议去执行同样的调用，不再需要区分不同的LLM
+
+<img src="resource/MCP协议示意图.png">
+
+> Function Calling 是能力
+> MCP 是规范化实现这个能力的协议
 
 
 ## Agent
@@ -59,5 +75,7 @@
 
 - 提前写给Agent的**说明文档**
 - 通过Markdown文档的形式，描述Agent的工作规则
-- 分为：**原数据层**，包括 name 和 description
+- 分为：**原数据层**，包括 `name` 和 `description`
         **指令层**，将任务执行规则描述给Agent
+
+<img src="resource/Agent_Skill流程示意图.png">
